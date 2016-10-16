@@ -1,0 +1,62 @@
+body {
+  background-color:#FFFFCC;
+}
+
+h3.title {
+  vertical-align: middle;
+  text-align: center; 
+  font: 200%; 
+  font-weight: bold; 
+  margin-top: 10%; 
+  margin-bottom: 5%;
+}
+
+.list {
+  vertical-align: middle;
+  text-align: center;
+  margin-left: 10%;
+  margin-right: 10%;
+  letter-spacing: 1px;
+  height: 100%;
+  font-family: 'Exo', serif;
+  font-style: bold;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  margin-bottom: 0.4%;
+  border: 1.5px solid rgba(200,200,200,0.8);
+  border-radius: 6px;
+  position: relative;
+}
+
+button.btnStyle {
+  vertical-align: middle;
+  text-align:center; 
+  margin-left:30%; 
+  margin-top: 5%;
+}
+
+.selectedQuestion {
+  background-color:#9999FF;
+}
+
+div.adjustTop {
+  margin-top: 5%;
+}
+
+main.mainStyle {
+  width:80%; 
+  margin-left: 10%;
+}
+
+form.addFormStyle {
+  margin-top: 5%; 
+  vertical-align: middle; 
+  margin-left:30%; 
+}
+
+b.assignmentTitle {
+  font-size: 200%;
+}
+div.assignmentBody {
+  margin-left: 5%;
+}
