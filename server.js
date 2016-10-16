@@ -35,7 +35,7 @@ var requireAuthentication = function(req, res, next){
     next();
   } else {
     console.log("401 should be sent here...");
-    res.end(401);
+    res.sendStatus(401);
     //res.redirect('/login');
   }
 }
@@ -47,7 +47,7 @@ app.use(express.static(__dirname + '/public')); // server static file in public 
 app.use('/bower_components',  express.static(__dirname + '/bower_components')); 
 app.use(cookieParser()); 
 app.use(session({
-  secrete: 'make this a good secret',
+  secret: 'make this a good secret',
   resave: false,
   saveUninitialized: true
 }));
