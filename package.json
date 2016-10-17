@@ -9,11 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "mongoose": "^4.6.3",
     "passport": "^0.3.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "q": "^1.4.1"
   }
 }

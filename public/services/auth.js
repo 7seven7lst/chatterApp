@@ -1,111 +1,78 @@
 'use strict';
 
 angular.module('chat')
-  .factory('Auth', function Auth($state, $rootScope, Session, User, $cookieStore) {
-    // Get currentUser from cookie
-    $rootScope.currentUser = $cookieStore.get('user') || null;
-    $cookieStore.remove('user');
-
-    return {
-      /**
-       * Authenticate user
-       * 
-       * @param  {Object}   user     - login info
-       * @param  {Function} callback - optional
-       * @return {Promise}            
-       */
-      login: function(user, callback) {
-        var cb = callback || angular.noop;
-
-        return Session.save({
-          email: user.email,
-          password: user.password
-        }, function(user) {
-          $rootScope.currentUser = user;
-          return cb();
-        }, function(err) {
-          return cb(err);
-        }).$promise;
-      },
-
-      /**
-       * Unauthenticate user
-       * 
-       * @param  {Function} callback - optional
-       * @return {Promise}           
-       */
-      logout: function(callback) {
-        var cb = callback || angular.noop;
-
-        $rootScope.currentUser = null;
-        return Session.delete(function() {
-            return cb();
-          },
-          function(err) {
-            return cb(err);
-          }).$promise;
-      },
-
-      /**
-       * Create a new user
-       * 
-       * @param  {Object}   user     - user info
-       * @param  {Function} callback - optional
-       * @return {Promise}            
-       */
-      createUser: function(user, callback) {
-        var cb = callback || angular.noop;
-
-        return User.save(user,
-          function(user) {
-            $rootScope.currentUser = user;
-            return cb(user);
-          },
-          function(err) {
-            return cb(err);
-          }).$promise;
-      },
-
-      /**
-       * Change password
-       * 
-       * @param  {String}   oldPassword 
-       * @param  {String}   newPassword 
-       * @param  {Function} callback    - optional
-       * @return {Promise}              
-       */
-      changePassword: function(oldPassword, newPassword, callback) {
-        var cb = callback || angular.noop;
-
-        return User.update({
-          oldPassword: oldPassword,
-          newPassword: newPassword
-        }, function(user) {
-          return cb(user);
-        }, function(err) {
-          return cb(err);
-        }).$promise;
-      },
-
-      /**
-       * Gets all available info on authenticated user
-       * 
-       * @return {Object} user
-       */
-      currentUser: function() {
-        return User.get();
-      },
-
-      /**
-       * Simple check to see if a user is logged in
-       * 
-       * @return {Boolean}
-       */
-      isLoggedIn: function() {
-        if($rootScope.currentUser) {
-          return true;
+.factory('Auth', function Auth($q, $timeout, $http, $rootScope, $state ) {
+  // Get currentUser from cookie
+  
+  var _userName;
+  var _loggedIn;
+  var getLoggedIn = function() {
+    return $http.get('/api/loggedin')
+    .success(function(data){
+        console.log("is it logged in???>>>>>", data);
+        _loggedIn = Boolean(data);
+        if (!_loggedIn){
+            //$state.go('signin');
+            return true;
+        } else {
+          return false;
         }
-        return false;
+    })
+    .error(function(err){
+      return false;
+    });
+  };
+  getLoggedIn();
+  
+  var setLoggedIn = function(isIn) {
+      _loggedIn = isIn;
+  };
+
+  var logout = function(){
+    console.log("hererere trying to logout");
+    $http.get('/api/logout')
+    .then(function(res, err){
+      console.log("log out response", res);
+      if (res.status ===200){
+        $state.go('signin');
       }
-    };
-  });
+    })
+  }
+
+  var signin = function(user){
+    $http.post('/api/login', user)
+    .then(function(res, err){
+      console.log("response is >>>>>", res);
+      return getLoggedIn()
+    })
+    .then(function(){
+      if (res.status !== 401){
+        service._loggedIn = true;
+        service.getLoggedIn();
+        $state.go('home');
+      }
+    })
+  }
+
+  var signup = function(user){
+    $http.post('/api/signup', user)
+    .then(function(res, err){
+      console.log("response  from posting to signup api is >>>>>", res);
+      if (res.status !== 401){
+        service._loggedIn = true;
+        service.getLoggedIn();
+        $state.go('home');
+      }
+    })
+  }
+
+  var service ={
+    getLoggedIn: getLoggedIn,
+    _loggedIn: _loggedIn,
+    logout: logout,
+    signin: signin,
+    signup: signup
+  }
+    
+  return service;
+});

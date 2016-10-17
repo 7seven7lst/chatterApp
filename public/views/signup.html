@@ -1,7 +1,7 @@
 <div class="form-block login">
-  <div id='signin'>
+  <div id='signup'>
   
-    <form novalidate name="signinform" class="form-block" role="form" ng-submit='signin(user)'>
+    <form novalidate name="signupform" class="form-block" role="form" ng-submit='signup(user)'>
       <div class="form-group">
         <input name='username' required  placeholder="Username" type="text" ng-model="user.username"/>
       </div>
@@ -9,8 +9,7 @@
       <div class="form-group">
         <input name='password' required  placeholder="Password" type="password" ng-model="user.password"/>
       </div>
-      <button>Log In</button>
+      <button>Sign up</button>
     </form>
-    <p ui-sref="signup"> Click here to sign up </p>
   </div>
 </div>
