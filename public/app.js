@@ -79,6 +79,7 @@ angular.module('chat', ['ui.router', 'chat.main', 'chat.signin', 'chat.signup', 
             var state = toState.name;
             Auth.getLoggedIn()
             .then(function(){
+                console.log("here auth is >>>>>", Auth);
                 if (Auth._loggedIn){
                     console.log("logged in , no need to redirect ")
                 } else {

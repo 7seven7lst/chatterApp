@@ -10,8 +10,9 @@ angular.module('chat')
     return $http.get('/api/loggedin')
     .success(function(data){
         console.log("is it logged in???>>>>>", data);
-        _loggedIn = Boolean(data);
-        if (!_loggedIn){
+        service._loggedIn = Boolean(data);
+        console.log("_loggedIn is >>>>", service._loggedIn);
+        if (!service._loggedIn){
             //$state.go('signin');
             return true;
         } else {
@@ -43,9 +44,6 @@ angular.module('chat')
     $http.post('/api/login', user)
     .then(function(res, err){
       console.log("response is >>>>>", res);
-      return getLoggedIn()
-    })
-    .then(function(){
       if (res.status !== 401){
         service._loggedIn = true;
         service.getLoggedIn();
